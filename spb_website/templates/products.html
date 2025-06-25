@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block title %}SPB Products{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row pb-2">
+        <div class="col">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if prev_url %}
+                    <li onclick="prePage()" class="page-item page-list">
+                        <a class="page-link" href="{{ prev_url }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if next_url %}
+                    <li onclick="nextPage()" class="page-item">
+                        <a class="page-link" href="{{ next_url }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        <div class="col" align="right">
+            <form method="POST">
+                <select title="product_items" name="filter_items">
+                    <option value="all" {% if selected=='all' %} selected {% endif %}>All</option>
+                    <option value="chb" {% if selected=='chb' %} selected {% endif %}>Corn Hole Boards</option>
+                    <option value="chsb" {% if selected=='chsb' %} selected {% endif %}>Corn Hole Score Boards</option>
+                    <option value="tmblr" {% if selected=='tmblr' %} selected {% endif %}>Tumblers</option>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-3 g-1">
+        {% for prod in product %}
+        <div class="card">
+            <div class="container" height="auto" width="100%">
+                <button class="btn" data-bs-target="#mymodal" data-bs-toggle="modal" data-bs-heading="{{prod.prodName}}"
+                        data-bs-modalcontent="{{prod.prodDesc}}" data-image-src="./static/images/{{prod.imgName}}">
+                    <img id="cardImg" src="./static/images/{{prod.imgName}}" class="card-img-top img-fluid zoom-sm"
+                         alt="Card Image">
+                </button>
+            </div>
+            <div class="card-body d-flex flex-column mt-auto">
+                <h4 class="card-title">{{prod.prodName}}</h4>
+                <p class="card-text">{{prod.prodDesc}}</p>
+                <div class="card-footer mt-auto" style="text-align:center">
+                    <a href="/add?product_id={{prod.id}}" class="card-link">Add To Cart!</a>
+                    <p>Qty Available: {{prod.stockQty}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="modal fade" id="mymodal"
+         data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Title
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <img id="modalImg" class="img-fluid">
+                            </div>
+                            <div class="col-lg-6">
+                                <p>
+                                    placeholder
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-danger"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block modalscript %}
+<script>
+    const myModal = document.querySelector('#mymodal');
+    myModal.addEventListener('show.bs.modal', function (event) {
+        // Get the reference of the triggering button
+        // and retrieve the value from the attribute
+        const button = event.relatedTarget;
+        const heading = button.getAttribute('data-bs-heading');
+        const modalcontent = button.getAttribute('data-bs-modalcontent');
+        const modalimg = button.getAttribute('data-image-src');
+
+        // Set the values
+        myModal.querySelector('.modal-header').textContent = heading;
+        myModal.querySelector('.modal-body p').textContent = modalcontent;
+
+        // Get the modal body element within the modal
+        const modalBody = mymodal.querySelector('.modal-body');
+
+        // Find the image element inside the modal body
+        const modalImage = modalBody.querySelector('img');
+
+        // Set the image source
+        if (modalImage) { // Check if an image element was found
+            modalImage.src = modalimg;
+        }
+    });
+</script>
+{% endblock %}
