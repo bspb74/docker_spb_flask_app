@@ -41,7 +41,7 @@ class ProductAddAPI(MethodView):
     @api_product.response(201, ProductSchema, description="Add A New Product")
     def post(self, product_data):
         """Create New Product"""
-        print(f"Product Name: {product_data["prodName"]}")
+        print(f"Product Name: {product_data['prodName']}")
         product = Product(
             model=product_data["model"],
             prodName=product_data["prodName"],
