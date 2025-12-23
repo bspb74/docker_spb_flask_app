@@ -1,0 +1,47 @@
+services:
+  spb-flask-app:
+    image: spb74/spb_website:db_20251222_4
+    container_name: spb_website
+#    build: ./spb_website
+    ports:
+      - "2980:5000"
+    depends_on:
+      - spb-mysql-db
+    environment:
+      FLASK_APP: app.py
+    volumes:
+      - ./spb_website/static/images:/spb_website/static/images
+    networks:
+      - spb_app_net
+
+  spb-mysql-db:
+    image: mariadb:latest
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: bSpB74
+      MYSQL_DATABASE: spb_db
+      MYSQL_USER: bspb74
+      MYSQL_PASSWORD: bSpB742980
+    volumes:
+      - ./spb_mysql:/var/lib/mysql # Persistent storage for MySQL data
+    ports:
+      - "5464:3306" # Expose MySQL port (optional, if you need direct access)
+    restart: always
+    networks:
+      - spb_app_net
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_pma
+    environment:
+      PMA_HOST: db # Connects to the 'db' service defined above
+      PMA_PORT: 5464
+      PMA_ARBITRARY: 1 # Allows connecting to other MySQL servers from phpMyAdmin
+    ports:
+      - "8181:80" # Access phpMyAdmin on http://localhost:8080
+    depends_on:
+      - spb-mysql-db # Ensures MySQL starts before phpMyAdmin
+    restart: always
+
+networks:
+  spb_app_net: {}

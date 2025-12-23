@@ -25,6 +25,7 @@ def login():
                 flash('Incorrect password, try again!', category='error')
         else:
             flash('Email does not exist!', category='error')
+            return redirect(url_for("auth.signup"))
 
     return render_template("login.html", user=current_user)
 
@@ -36,7 +37,7 @@ def logout():
     return redirect(url_for('auth.login'))
 
 
-@auth.route('/sign_up', methods=['GET', 'POST'])
+@auth.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -68,7 +69,8 @@ def signup():
             createAccount = False
 
         if createAccount:
-            new_user = User(email=email, fName=fName, lName=lName, pwd=generate_password_hash(pwd1, method='pbkdf2:sha256'))
+            new_user = User(email=email, fName=fName, lName=lName,
+                            pwd=generate_password_hash(pwd1, method='pbkdf2:sha256'))
             db.session.add(new_user)
             db.session.commit()
             login_user(user, remember=True)

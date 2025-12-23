@@ -2,15 +2,16 @@ import mysql.connector
 import pandas as pd
 
 mydb = mysql.connector.connect(
-    host="bspb-srv",
+    host="172.16.1.124",
+    port="5464",
     user="bspb74",
-    password="b$pB742980",
+    password="bSpB742980",
     database="spb_db"
 )
 
 cursor = mydb.cursor()
 
-filepath = "./website/static/products/products.xlsx"
+filepath = "./spb_website/static/products/products.xlsx"
 
 df = pd.read_excel(filepath)
 

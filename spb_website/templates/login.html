@@ -2,7 +2,7 @@
 {% block title %}SPB Login Page {% endblock %}
 {% block content %}
 <form method="POST">
-    <h3 align="center">Sign Up</h3>
+    <h3 align="center">Sign In</h3>
     <div class="form-group">
         <label for="email">Email Address</label>
         <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email"/>
@@ -13,5 +13,6 @@
     </div>
     <br/>
     <button type="submit" class="btn btn-primary">Login</button>
+    <button id="signup" class="btn btn-primary" href="{{ url_for('auth.signup') }}">Sign Up!</button>
 </form>
 {% endblock %}
