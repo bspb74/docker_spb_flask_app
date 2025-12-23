@@ -41,7 +41,7 @@ def create_app():
     }
     app.config['OPENAPI_REDOC_PATH'] = "/redoc"
     app.config['OPENAPI_REDOC_UI_URL'] = "https://cdn.jsdeliver.net/npm/redoc@next/bundles/redoc.standalone/"
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://bspb74:bSpB742980@spb-mysql-db:3306/{DB_NAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://bspb74:bSpB742980@172.16.1.14:5464/{DB_NAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
     api.init_app(app)
