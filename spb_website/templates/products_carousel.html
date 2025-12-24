@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}SPB Products{% endblock %}
+{% block content %}
+<div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    {% for product in products %}
+    <div class="carousel-item {% if loop.first %}active{% endif %}">
+      <img src="./static/images/{{prod.imgName}}" class="d-block w-100" alt="{{prod.imgName}}">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>{{prod.prodName}}</h5>
+        <p>{{prod.stockQty}}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">...</button>
+  <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">...</button>
+</div>
+{% endblock %}

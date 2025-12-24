@@ -64,7 +64,7 @@ def products():
     except Exception as e:
         print(e)
 
-    return render_template("products.html", user=current_user, product=products,
+    return render_template("products_carousel.html", user=current_user, product=products,
                        selected=selected,
                        next_url=next_url,
                        prev_url=prev_url)
